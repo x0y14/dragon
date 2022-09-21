@@ -1,6 +1,9 @@
 package tokenizer
 
 type Token struct {
-	Pos *Position
-	TokenKind
+	Pos  *Position
+	Kind interface {
+		int
+		String() string
+	}
 }
