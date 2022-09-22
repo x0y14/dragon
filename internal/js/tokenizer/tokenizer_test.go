@@ -13,7 +13,7 @@ func TestTokenizer_Tokenize(t *testing.T) {
 		expectErr   error
 		expectToken *tokenizer.Token
 	}{
-		{
+		{ // 出典: https://www.programiz.com/javascript/examples/add-number
 			"add 2 nums",
 			`
 				const num1 = 5;
