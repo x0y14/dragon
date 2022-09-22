@@ -253,7 +253,7 @@ func (t *Tokenizer) linkNewSymbolToken(currentToken *tokenizer.Token, startedAt 
 	if kind == Illegal {
 		return nil, fmt.Errorf("unsupported symbol: %s", symbol)
 	}
-	tok := tokenizer.NewToken(kind, startedAt, symbol, 0, 0)
+	tok := tokenizer.NewToken(kind, startedAt, "", 0, 0)
 	currentToken.Next = tok
 	return tok, nil
 }
@@ -297,7 +297,7 @@ func (t *Tokenizer) Tokenize(target []rune) (*tokenizer.Token, error) {
 		// 数字
 		if t.isNumber(t.currentRune()) {
 			// consume関数で位置を移動するので、開始地点を保存しておく
-			startedAt := t.currentPos
+			startedAt := t.currentPos.Clone()
 			numStr, dotIncluded := t.consumeNumber()
 			if dotIncluded {
 				// 少数
@@ -321,7 +321,7 @@ func (t *Tokenizer) Tokenize(target []rune) (*tokenizer.Token, error) {
 		}
 		// 文字列
 		if t.currentRune() == '"' || t.currentRune() == '\'' {
-			startedAt := t.currentPos
+			startedAt := t.currentPos.Clone()
 			str := t.consumeString()
 			cur = t.linkNewStringToken(cur, startedAt, str)
 			// consumeで移動済み
@@ -329,7 +329,7 @@ func (t *Tokenizer) Tokenize(target []rune) (*tokenizer.Token, error) {
 		}
 		// 識別子
 		if t.isAlphabet(t.currentRune()) || t.currentRune() == '_' {
-			startedAt := t.currentPos
+			startedAt := t.currentPos.Clone()
 			ident := t.consumeIdent()
 			cur = t.linkNewIdentToken(cur, startedAt, ident)
 			// consumeで移動済み
@@ -339,7 +339,7 @@ func (t *Tokenizer) Tokenize(target []rune) (*tokenizer.Token, error) {
 		// 複合記号
 		if symbol, ok := t.isComplexSymbol(); ok {
 			var err error
-			cur, err = t.linkNewSymbolToken(cur, t.currentPos, symbol)
+			cur, err = t.linkNewSymbolToken(cur, t.currentPos.Clone(), symbol)
 			if err != nil {
 				return nil, err
 			}
@@ -350,7 +350,7 @@ func (t *Tokenizer) Tokenize(target []rune) (*tokenizer.Token, error) {
 		// 単体記号
 		if symbol, ok := t.isSingleSymbol(); ok {
 			var err error
-			cur, err = t.linkNewSymbolToken(cur, t.currentPos, symbol)
+			cur, err = t.linkNewSymbolToken(cur, t.currentPos.Clone(), symbol)
 			if err != nil {
 				return nil, err
 			}
@@ -358,9 +358,9 @@ func (t *Tokenizer) Tokenize(target []rune) (*tokenizer.Token, error) {
 			t.moveHorizon(len(symbol))
 			continue
 		}
-		return nil, fmt.Errorf("[%s] unexpected rune: %s", t.currentPos.String(), string(t.currentRune()))
+		return nil, fmt.Errorf("[%s] unexpected rune: %s", t.currentPos.Clone().String(), string(t.currentRune()))
 	}
 
-	cur = t.linkNewEofToken(cur, t.currentPos)
+	cur = t.linkNewEofToken(cur, t.currentPos.Clone())
 	return head.Next, nil
 }
