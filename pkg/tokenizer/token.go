@@ -1,11 +1,14 @@
 package tokenizer
 
+// TokenKind String() stringを持ったint型を想定してる
+// String() -> "Eof"の場合があるようにしてください
+type TokenKind interface {
+	String() string
+}
+
 type Token struct {
-	Kind interface {
-		int
-		String() string
-	}
-	Pos *Position
+	Kind TokenKind
+	Pos  *Position
 
 	// 即値格納用フィールド
 	S string
@@ -15,10 +18,7 @@ type Token struct {
 	Next *Token
 }
 
-func NewToken(kind interface {
-	int
-	String() string
-}, pos *Position, s string, f float64, i int64) *Token {
+func NewToken(kind TokenKind, pos *Position, s string, f float64, i int64) *Token {
 	return &Token{
 		Pos:  pos,
 		Kind: kind,
@@ -27,4 +27,8 @@ func NewToken(kind interface {
 		F:    f,
 		Next: nil,
 	}
+}
+
+func (t *Token) IsEof() bool {
+	return t.Kind.String() == "Eof"
 }
