@@ -47,7 +47,7 @@ func (p *Parser) parseFuncParams() (*commonParser.Node, error) {
 			break
 		}
 	}
-	return NewNodeWithOutImmediate(FuncParams, nil, nil, nil, params), nil
+	return NewNodeWithOutHsAndImmediate(FuncParams, params, nil, nil, nil), nil
 }
 
 func (p *Parser) parseFuncDefine() (*commonParser.Node, error) {
@@ -88,7 +88,7 @@ func (p *Parser) parseFuncDefine() (*commonParser.Node, error) {
 	}
 
 	// childrenに入れるべきか
-	return NewNodeWithOutImmediate(FuncDefine, identifier, params, block, nil), nil
+	return NewNodeWithOutHsAndImmediate(FuncDefine, nil, identifier, params, block), nil
 }
 
 func (p *Parser) parseBlock() (*commonParser.Node, error) {
@@ -105,8 +105,8 @@ func (p *Parser) parseBlock() (*commonParser.Node, error) {
 		}
 		statements = append(statements, stmt)
 	}
-	// forの条件としてRCBは処分されている。
-	return NewNodeWithOutImmediate(Block, nil, nil, nil, statements), nil
+	// for文の条件としてRCBは処分されている。
+	return NewNodeWithOutHsAndImmediate(Block, statements, nil, nil, nil), nil
 }
 
 func (p *Parser) parseVarDeclareAndDefine() (*commonParser.Node, error) {
@@ -128,7 +128,7 @@ func (p *Parser) parseVarDeclareAndDefine() (*commonParser.Node, error) {
 	// =
 	// assがnilならdeclare
 	if ass := p.consumeKind(tokenizer.OPAssign); ass == nil {
-		return NewNodeWithOutImmediate(VarDeclare, nil, nil, identifier, nil), nil
+		return NewNodeWithOutHsAndImmediate(VarDeclare, nil, identifier, nil, nil), nil
 	}
 
 	// value
@@ -138,7 +138,7 @@ func (p *Parser) parseVarDeclareAndDefine() (*commonParser.Node, error) {
 		return nil, fmt.Errorf("failed to parse varDefine: %v", err)
 	}
 
-	return NewNodeWithOutImmediate(VarDefine, identifier, v, nil, nil), nil
+	return NewNodeWithOutImmediate(VarDefine, identifier, v, nil, nil, nil, nil), nil
 }
 
 func (p *Parser) parseLetDeclareAndDefine() (*commonParser.Node, error) {
@@ -171,13 +171,7 @@ func (p *Parser) parseConst() (*commonParser.Node, error) {
 		return nil, fmt.Errorf("failed to parse ")
 	}
 
-	return &commonParser.Node{
-		Kind:     ConstDefine,
-		LHS:      identifier,
-		RHS:      v,
-		Child:    nil,
-		Children: nil,
-	}, nil
+	return NewNodeWithOutImmediate(ConstDefine, identifier, v, nil, nil, nil, nil), nil
 }
 
 func (p *Parser) statement() (*commonParser.Node, error) {
