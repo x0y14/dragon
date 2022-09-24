@@ -33,6 +33,7 @@ LITERAL     = "(" expr ")"
             | OBJECT
             | NULL
             | SYMBOL
+            | NaN
             | UNDEFINED
 
 FUNC_PARAMS = IDENT ("," IDENT)*
