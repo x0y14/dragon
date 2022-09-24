@@ -105,9 +105,13 @@ func (k Kind) String() string {
 }
 
 func NewIdentifierNode(t *commonTokenizer.Token) *commonParser.Node {
-	return commonParser.NewNode(Identifier, nil, nil, nil, nil, t.S, 0, 0, false)
+	return commonParser.NewNode(Identifier, nil, nil, nil, nil, nil, nil, t.S, 0, 0, false)
 }
 
-func NewNodeWithOutImmediate(kind commonParser.NodeKind, lhs, rhs, child *commonParser.Node, children []*commonParser.Node) *commonParser.Node {
-	return commonParser.NewNode(kind, lhs, rhs, child, children, "", 0, 0, false)
+func NewNodeWithOutImmediate(kind commonParser.NodeKind, lhs, rhs *commonParser.Node, children []*commonParser.Node, n1, n2, n3 *commonParser.Node) *commonParser.Node {
+	return commonParser.NewNode(kind, lhs, rhs, children, n1, n2, n3, "", 0, 0, false)
+}
+
+func NewNodeWithOutHsAndImmediate(kind commonParser.NodeKind, children []*commonParser.Node, n1, n2, n3 *commonParser.Node) *commonParser.Node {
+	return commonParser.NewNode(kind, nil, nil, children, n1, n2, n3, "", 0, 0, false)
 }
