@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"dragon/internal/js/tokenizer"
-	"dragon/pkg/parser"
+	"dragon/common/parser"
+	"dragon/js/tokenizer"
 	"github.com/google/go-cmp/cmp"
 	"testing"
 )

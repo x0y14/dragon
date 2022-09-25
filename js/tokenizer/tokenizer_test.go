@@ -1,7 +1,7 @@
 package tokenizer
 
 import (
-	"dragon/pkg/tokenizer"
+	"dragon/common/tokenizer"
 	"github.com/google/go-cmp/cmp"
 	"testing"
 )

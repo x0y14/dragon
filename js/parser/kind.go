@@ -1,9 +1,9 @@
 package parser
 
 import (
-	"dragon/internal/js/tokenizer"
-	commonParser "dragon/pkg/parser"
-	commonTokenizer "dragon/pkg/tokenizer"
+	commonParser "dragon/common/parser"
+	commonTokenizer "dragon/common/tokenizer"
+	"dragon/js/tokenizer"
 	"fmt"
 )
 

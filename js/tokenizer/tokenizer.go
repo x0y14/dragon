@@ -1,7 +1,7 @@
 package tokenizer
 
 import (
-	"dragon/pkg/tokenizer"
+	"dragon/common/tokenizer"
 	"fmt"
 	"log"
 	"strconv"
