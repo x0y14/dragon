@@ -2,7 +2,7 @@
 ## Statement
 ```text
 PROGRAM     = STMT*
-STMT        = EXPR ";"
+STMT        = EXPR ";"?
             | // import
             | // class
             | "function" IDENT "(" FUNC_PARAMS ")" STMT
@@ -21,6 +21,7 @@ EQUALITY    = RELATIONAL ("==" RELATIONAL | "!=" RELATIONAL)*
 RELATIONAL  = ADD ("<" ADD | "<=" ADD | ">" ADD | ">=" ADD)*
 ADD         = MUL ("+" MUL | "-" MUL)*
 MUL         = UNARY ("*" UNARY | "/" UNARY | "%" UNARY)*
+UNARY       = ("+" | "-" | "!")? PRIMARY
 PRIMARY     = MEMBER
 ACCESS      = LITERAL ("["EXPR"]" | "." LITERAL)*
 LITERAL     = "(" expr ")"
