@@ -22,8 +22,8 @@ RELATIONAL  = ADD ("<" ADD | "<=" ADD | ">" ADD | ">=" ADD)*
 ADD         = MUL ("+" MUL | "-" MUL)*
 MUL         = UNARY ("*" UNARY | "/" UNARY | "%" UNARY)*
 UNARY       = ("+" | "-" | "!")? PRIMARY
-PRIMARY     = MEMBER
-ACCESS      = LITERAL ("["EXPR"]" | "." LITERAL)*
+PRIMARY     = ACCESS
+ACCESS      = LITERAL ("["EXPR"]" | "." PRIMARY)*
 LITERAL     = "(" expr ")"
             | IDENT
             | IDENT "(" CALL_ARGS ")"
@@ -33,7 +33,6 @@ LITERAL     = "(" expr ")"
             | ARRAY
             | OBJECT
             | NULL
-            | SYMBOL
             | NaN
             | UNDEFINED
 
