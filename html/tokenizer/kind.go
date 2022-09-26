@@ -3,13 +3,15 @@ package tokenizer
 type Kind int
 
 const (
-	_           Kind = iota
-	TagBegin         // <
-	TagEnd           // >
-	Exclamation      // !
-	Assign           // =
-	Hyphen           // -
-	Slash            // /
+	_ Kind = iota
+	Eof
+
+	TagBegin    // <
+	TagEnd      // >
+	Exclamation // !
+	Assign      // =
+	Hyphen      // -
+	Slash       // /
 
 	Identifier
 	String
@@ -146,6 +148,7 @@ const (
 )
 
 var kinds = [...]string{
+	Eof:          "Eof",
 	TagBegin:     "TagBegin",
 	TagEnd:       "TagEnd",
 	Exclamation:  "Exclamation",
