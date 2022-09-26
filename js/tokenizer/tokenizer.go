@@ -32,7 +32,7 @@ func (t *Tokenizer) isWhite(r rune) bool {
 	return r == ' ' || r == '\t'
 }
 
-func (t *Tokenizer) isComplexSymbol() (string, bool) {
+func (t *Tokenizer) isSingleSymbol() (string, bool) {
 	for _, symbol := range []string{
 		"+", "-", "*", "/", "%", "=", // op
 		"<", ">", "!", // logical
@@ -45,7 +45,7 @@ func (t *Tokenizer) isComplexSymbol() (string, bool) {
 	return "", false
 }
 
-func (t *Tokenizer) isSingleSymbol() (string, bool) {
+func (t *Tokenizer) isComplexSymbol() (string, bool) {
 	for _, symbol := range []string{
 		"==", "!=", ">=", "<=", "&&", "||", // logical
 		"+=", "-=", "*=", "/=", "%=", // op
