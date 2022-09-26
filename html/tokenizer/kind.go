@@ -4,7 +4,9 @@ type Kind int
 
 const (
 	_ Kind = iota
+	Illegal
 	Eof
+	Whitespace
 
 	TagBegin    // <
 	TagEnd      // >
@@ -12,6 +14,7 @@ const (
 	Assign      // =
 	Hyphen      // -
 	Slash       // /
+	Amp         // &
 
 	Identifier
 	String
@@ -129,7 +132,7 @@ const (
 	KWFieldset
 	KWForm
 	KWInput
-	LWLabel
+	KWLabel
 	KWLegend
 	KWMeter
 	KWOptgroup
@@ -148,13 +151,16 @@ const (
 )
 
 var kinds = [...]string{
+	Illegal:      "Illegal",
 	Eof:          "Eof",
+	Whitespace:   "Whitespace",
 	TagBegin:     "TagBegin",
 	TagEnd:       "TagEnd",
 	Exclamation:  "Exclamation",
 	Assign:       "Assign",
 	Hyphen:       "Hyphen",
 	Slash:        "Slash",
+	Amp:          "Amp",
 	Identifier:   "Identifier",
 	String:       "String",
 	Integer:      "Integer",
@@ -258,7 +264,7 @@ var kinds = [...]string{
 	KWFieldset:   "KWFieldset",
 	KWForm:       "KWForm",
 	KWInput:      "KWInput",
-	LWLabel:      "LWLabel",
+	KWLabel:      "KWLabel",
 	KWLegend:     "KWLegend",
 	KWMeter:      "KWMeter",
 	KWOptgroup:   "KWOptgroup",
@@ -276,4 +282,259 @@ var kinds = [...]string{
 
 func (k Kind) String() string {
 	return kinds[k]
+}
+
+func symbolKind(symbol string) Kind {
+	var kind Kind
+	switch symbol {
+	case "<":
+		kind = TagBegin
+	case ">":
+		kind = TagEnd
+	case "!":
+		kind = Exclamation
+	case "=":
+		kind = Assign
+	case "-":
+		kind = Hyphen
+	case "/":
+		kind = Slash
+	case "&":
+		kind = Amp
+	default:
+		kind = Illegal
+	}
+	return kind
+}
+
+func identKind(ident string) Kind {
+	switch ident {
+	case "docType":
+		return KWDocType
+	case "html":
+		return KWHtml
+	case "base":
+		return KWBase
+	case "head":
+		return KWHead
+	case "link":
+		return KWLink
+	case "meta":
+		return KWMeta
+	case "style":
+		return KWStyle
+	case "title":
+		return KWTitle
+	case "body":
+		return KWBody
+	case "address":
+		return KWAddress
+	case "article":
+		return KWArticle
+	case "aside":
+		return KWAside
+	case "footer":
+		return KWFooter
+	case "header":
+		return KWHeader
+	case "h1":
+		return KWH1
+	case "h2":
+		return KWH2
+	case "h3":
+		return KWH3
+	case "h4":
+		return KWH4
+	case "h5":
+		return KWH5
+	case "h6":
+		return KWH6
+	case "main":
+		return KWMain
+	case "nav":
+		return KWNav
+	case "section":
+		return KWSection
+	case "blockquote":
+		return KWBlockquote
+	case "dd":
+		return KWDd
+	case "div":
+		return KWDiv
+	case "dl":
+		return KWDl
+	case "dt":
+		return KWDt
+	case "figcaption":
+		return KWFigcaption
+	case "figure":
+		return KWFigure
+	case "hr":
+		return KWHr
+	case "li":
+		return KWLi
+	case "menu":
+		return KWMenu
+	case "ol":
+		return KWOl
+	case "p":
+		return KWP
+	case "pre":
+		return KWPre
+	case "ul":
+		return KWUl
+	case "a":
+		return KWA
+	case "abbr":
+		return KWAbbr
+	case "b":
+		return KWB
+	case "bdi":
+		return KWBdi
+	case "bdo":
+		return KWBdo
+	case "br":
+		return KWBr
+	case "cite":
+		return KWCite
+	case "code":
+		return KWCode
+	case "data":
+		return KWData
+	case "dfn":
+		return KWDfn
+	case "em":
+		return KWEm
+	case "i":
+		return KWI
+	case "kbd":
+		return KWKbd
+	case "mark":
+		return KWMark
+	case "q":
+		return KWQ
+	case "rt":
+		return KWRt
+	case "ruby":
+		return KWRuby
+	case "s":
+		return KWS
+	case "samp":
+		return KWSamp
+	case "small":
+		return KWSmall
+	case "span":
+		return KWSpan
+	case "strong":
+		return KWStrong
+	case "sub":
+		return KWSub
+	case "sup":
+		return KWSup
+	case "time":
+		return KWTime
+	case "u":
+		return KWU
+	case "var":
+		return KWVar
+	case "wbr":
+		return KWWbr
+	case "area":
+		return KWArea
+	case "audio":
+		return KWAudio
+	case "img":
+		return KWImg
+	case "map":
+		return KWMap
+	case "track":
+		return KWTrack
+	case "video":
+		return KWVideo
+	case "embed":
+		return KWEmbed
+	case "iframe":
+		return KWIframe
+	case "object":
+		return KWObject
+	case "picture":
+		return KWPicture
+	case "portal":
+		return KWPortal
+	case "source":
+		return KWSource
+	case "svg":
+		return KWSvg
+	case "math":
+		return KWMath
+	case "canvas":
+		return KWCanvas
+	case "noscript":
+		return KWNoscript
+	case "script":
+		return KWScript
+	case "del":
+		return KWDel
+	case "ins":
+		return KWIns
+	case "caption":
+		return KWCaption
+	case "col":
+		return KWCol
+	case "colgroup":
+		return KWColgroup
+	case "table":
+		return KWTable
+	case "tbody":
+		return KWTbody
+	case "td":
+		return KWTd
+	case "tfoot":
+		return KWTfoot
+	case "th":
+		return KWTh
+	case "thread":
+		return KWThread
+	case "tr":
+		return KWTr
+	case "button":
+		return KWButton
+	case "datalist":
+		return KWDatalist
+	case "fieldset":
+		return KWFieldset
+	case "form":
+		return KWForm
+	case "input":
+		return KWInput
+	case "label":
+		return KWLabel
+	case "legend":
+		return KWLegend
+	case "meter":
+		return KWMeter
+	case "optgroup":
+		return KWOptgroup
+	case "option":
+		return KWOption
+	case "output":
+		return KWOutput
+	case "progress":
+		return KWProgress
+	case "select":
+		return KWSelect
+	case "textarea":
+		return KWTextarea
+	case "details":
+		return KWDetails
+	case "dialog":
+		return KWDialog
+	case "summary":
+		return KWSummary
+	case "slot":
+		return KWSlot
+	case "template":
+		return KWTemplate
+	}
+	return Identifier
 }
