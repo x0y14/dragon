@@ -3,16 +3,20 @@ package tokenizer
 type Kind int
 
 const (
-	_        Kind = iota
-	TagBegin      // <
-	TagEnd        // >
-	Assign        // =
+	_           Kind = iota
+	TagBegin         // <
+	TagEnd           // >
+	Exclamation      // !
+	Assign           // =
+	Hyphen           // -
+	Slash            // /
 
 	Identifier
 	String
 	Integer
 	Decimal
 
+	KWDocType
 	KWHtml
 
 	KWBase
@@ -144,11 +148,15 @@ const (
 var kinds = [...]string{
 	TagBegin:     "TagBegin",
 	TagEnd:       "TagEnd",
+	Exclamation:  "Exclamation",
 	Assign:       "Assign",
+	Hyphen:       "Hyphen",
+	Slash:        "Slash",
 	Identifier:   "Identifier",
 	String:       "String",
 	Integer:      "Integer",
 	Decimal:      "Decimal",
+	KWDocType:    "KWDocType",
 	KWHtml:       "KWHtml",
 	KWBase:       "KWBase",
 	KWHead:       "KWHead",
