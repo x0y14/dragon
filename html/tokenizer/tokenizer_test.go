@@ -15,6 +15,12 @@ func TestTokenizer_Tokenize(t *testing.T) {
 	}{
 		{
 			"1",
+			"<h1>hello, world</h1>",
+			nil,
+			nil,
+		},
+		{
+			"1",
 			"<div p1=1 p2=\"example.com\"><!--comment-->&amp</div>",
 			nil,
 			nil,

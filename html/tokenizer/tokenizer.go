@@ -212,15 +212,14 @@ func (t *Tokenizer) linkNewStringToken(currentToken *tokenizer.Token, startedAt 
 	return tok
 }
 
-func (t *Tokenizer) linkNewIdentToken(currentToken *tokenizer.Token, startedAt *tokenizer.Position, ident string) *tokenizer.Token {
-	kind := identKind(ident)
-	tok := tokenizer.NewToken(kind, startedAt, ident, 0, 0)
+func (t *Tokenizer) linkNewIntegerToken(currentToken *tokenizer.Token, startedAt *tokenizer.Position, n int64) *tokenizer.Token {
+	tok := tokenizer.NewToken(Integer, startedAt, "", 0, n)
 	currentToken.Next = tok
 	return tok
 }
 
-func (t *Tokenizer) linkNewIntegerToken(currentToken *tokenizer.Token, startedAt *tokenizer.Position, n int64) *tokenizer.Token {
-	tok := tokenizer.NewToken(Integer, startedAt, "", 0, n)
+func (t *Tokenizer) linkNewTextToken(currentToken *tokenizer.Token, startedAt *tokenizer.Position, s string) *tokenizer.Token {
+	tok := tokenizer.NewToken(Text, startedAt, s, 0, 0)
 	currentToken.Next = tok
 	return tok
 }
@@ -292,11 +291,16 @@ func (t *Tokenizer) Tokenize(target []rune) (*tokenizer.Token, error) {
 		if t.isAlphabet(t.currentRune()) || t.currentRune() == '_' {
 			startedAt := t.currentPos.Clone()
 			ident := t.consumeIdent()
-			cur = t.linkNewIdentToken(cur, startedAt, ident)
+			cur = t.linkNewTextToken(cur, startedAt, ident)
 			// consumeで移動済み
 			continue
 		}
-		return nil, fmt.Errorf("[%s] unexpected rune: %s", t.currentPos.Clone().String(), string(t.currentRune()))
+
+		// 直書きのデータ
+		startedAt := t.currentPos.Clone()
+		text := string(t.currentRune())
+		t.moveHorizon(1)
+		cur = t.linkNewTextToken(cur, startedAt, text)
 	}
 
 	cur = t.linkNewEofToken(cur, t.currentPos.Clone())
