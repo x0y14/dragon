@@ -1,6 +1,6 @@
 package parser
 
-import "dragon/common/tokenizer"
+import "github.com/x0y14/dragon/common/tokenizer"
 
 type Parser interface {
 	Parse(*tokenizer.Token) ([]*Node, error)

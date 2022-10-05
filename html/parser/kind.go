@@ -1,7 +1,7 @@
 package parser
 
 import (
-	commonParser "dragon/common/parser"
+	commonParser "github.com/x0y14/dragon/common/parser"
 )
 
 type Kind int

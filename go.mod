@@ -1,4 +1,4 @@
-module dragon
+module github.com/x0y14/dragon
 
 go 1.19
 

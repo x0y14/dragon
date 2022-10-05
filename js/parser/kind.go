@@ -1,10 +1,10 @@
 package parser
 
 import (
-	commonParser "dragon/common/parser"
-	commonTokenizer "dragon/common/tokenizer"
-	"dragon/js/tokenizer"
 	"fmt"
+	commonParser "github.com/x0y14/dragon/common/parser"
+	commonTokenizer "github.com/x0y14/dragon/common/tokenizer"
+	"github.com/x0y14/dragon/js/tokenizer"
 )
 
 type Kind int
