@@ -19,7 +19,7 @@ func NewPosition(lno, lat, wat int) *Position {
 }
 
 func (p *Position) String() string {
-	return fmt.Sprintf("%s:%s", p.LineNo, p.LineAt)
+	return fmt.Sprintf("%d:%d", p.LineNo, p.LineAt)
 }
 
 // NewPositionFromString 入力の内容を読み取った後の時の位置を返す, Debug用
