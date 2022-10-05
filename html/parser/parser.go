@@ -5,7 +5,6 @@ import (
 	commonParser "github.com/x0y14/dragon/common/parser"
 	commonTokenizer "github.com/x0y14/dragon/common/tokenizer"
 	"github.com/x0y14/dragon/html/tokenizer"
-	"log"
 	"strings"
 )
 
@@ -245,7 +244,7 @@ func (p *Parser) parseTag() (*commonParser.Node, error) {
 func (p *Parser) parse() ([]*commonParser.Node, error) {
 	var nodes []*commonParser.Node
 	for !p.isEof() {
-		log.Printf("%v: %v", p.currentToken.Pos.String(), p.currentToken.Kind.String())
+		//log.Printf("%v: %v", p.currentToken.Pos.String(), p.currentToken.Kind.String())
 		if p.currentToken.Kind == tokenizer.Slash {
 			break
 		}
